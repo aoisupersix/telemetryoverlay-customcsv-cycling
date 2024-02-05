@@ -18,7 +18,7 @@ export const convertToTelemetryCsv = (
 const convertToTelemetryRecord = (fitRecord: FitRecord, weight: number) => {
     let record: { [key: string]: unknown } = {
         date: fitRecord.timestamp.toISOString(),
-        'weight (text)': weight,
+        weight: weight,
     }
 
     if (fitRecord.position_lat) {
@@ -40,7 +40,7 @@ const convertToTelemetryRecord = (fitRecord: FitRecord, weight: number) => {
         record['temperature (°C)'] = fitRecord.temperature
     }
     if (fitRecord.power) {
-        record['power weight ratio (text)'] = fitRecord.power / weight
+        record['power weight ratio'] = fitRecord.power / weight
 
         if (
             fitRecord.left_right_balance &&
