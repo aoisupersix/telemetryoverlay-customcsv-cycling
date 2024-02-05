@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { string as stringFormatter } from '@json2csv/formatters'
 import { Parser } from '@json2csv/plainjs'
 import { CssBaseline, Grid, createTheme } from '@mui/material'
 import styled, { ThemeProvider } from 'styled-components'
@@ -34,7 +35,10 @@ const App = () => {
     const onUpload = (fit: ListedFit, weight: number, file: File) => {
         const [csvObject, fields] = convertToTelemetryCsv(fit, weight)
         setTelemetryCsv(csvObject)
-        const csvParser = new Parser({ fields: fields })
+        const csvParser = new Parser({
+            fields: fields,
+            formatters: { string: stringFormatter({ quote: '' }) },
+        })
         const csv = csvParser.parse(csvObject)
         const blob = new Blob([csv], { type: 'text/csv' })
         const url = window.URL.createObjectURL(blob)
