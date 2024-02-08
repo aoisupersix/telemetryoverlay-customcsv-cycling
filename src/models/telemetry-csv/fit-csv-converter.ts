@@ -1,24 +1,50 @@
+import dayjs from 'dayjs'
+import { sortBy } from 'lodash'
+
 import { TelemetryCsv } from './telemetry-csv'
 import { FitRecord } from '../fit/fit-record'
+import { Lap } from '../fit/lap'
 import { ListedFit } from '../fit/listed-fit'
 
 export const convertToTelemetryCsv = (
     fit: ListedFit,
     weight: number,
 ): [TelemetryCsv, string[]] => {
-    const telemetryRecords = fit.records.map((r) =>
-        convertToTelemetryRecord(r, weight),
-    )
+    const laps = sortBy(fit.laps, (l) => l.timestamp).map((l, i) => {
+        return {
+            number: i + 1,
+            record: l,
+        }
+    })
+    const telemetryRecords = fit.records.map((r) => {
+        const lap = laps.find(
+            (l) =>
+                r.timestamp >= l.record.start_time &&
+                r.timestamp < l.record.timestamp,
+        )
+        return convertToTelemetryRecord(r, lap.record, lap.number, weight)
+    })
     const fields = telemetryRecords
         .flatMap((r) => Object.keys(r))
         .filter((r1, i, arr) => arr.findIndex((r2) => r2 === r1) === i)
     return [telemetryRecords, fields]
 }
 
-const convertToTelemetryRecord = (fitRecord: FitRecord, weight: number) => {
+const convertToTelemetryRecord = (
+    fitRecord: FitRecord,
+    lap: Lap,
+    lapNumber: number,
+    weight: number,
+) => {
     let record: { [key: string]: unknown } = {
         date: fitRecord.timestamp.toISOString(),
         weight: weight,
+        'lap number': lapNumber,
+        'lap time (s)': dayjs(fitRecord.timestamp).diff(
+            lap.start_time,
+            'seconds',
+            true,
+        ),
         // Power is set at 0 even if no data exists in the FIT file.
         power: 0,
         'power weight ratio': 0,
