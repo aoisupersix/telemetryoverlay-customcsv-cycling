@@ -19,6 +19,11 @@ const convertToTelemetryRecord = (fitRecord: FitRecord, weight: number) => {
     let record: { [key: string]: unknown } = {
         date: fitRecord.timestamp.toISOString(),
         weight: weight,
+        // Power is set at 0 even if no data exists in the FIT file.
+        power: 0,
+        'power weight ratio': 0,
+        'left power (W)': 0,
+        'right power (W)': 0,
     }
 
     if (fitRecord.position_lat) {
