@@ -33,11 +33,7 @@ export const convertToTelemetryCsv = (
         const lastPositionChangeEvent = descOrderedPositionChangeEvents.find(
             (e) => e.timestamp <= r.timestamp,
         )
-        const lap = laps.find(
-            (l) =>
-                r.timestamp >= l.record.start_time &&
-                r.timestamp < l.record.timestamp,
-        )
+        const lap = laps.findLast((l) => r.timestamp >= l.record.start_time)
         return convertToTelemetryRecord(
             r,
             lap.record,
