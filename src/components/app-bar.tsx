@@ -32,7 +32,7 @@ export const AppBar: React.FC = () => {
                     sx={{ fontWeight: 'bold', flexGrow: 1 }}
                     gutterBottom
                 >
-                    TelemetryOverlay用カスタムCSV生成
+                    TelemetryOverlay custom CSV generation for cycling
                 </Typography>
                 <Typography variant="caption">
                     v{environment.VERSION}

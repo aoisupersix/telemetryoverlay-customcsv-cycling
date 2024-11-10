@@ -61,13 +61,13 @@ export const FitUploadForm: React.FC<FitUploadFormProps> = (props) => {
     const onUpload = () => {
         const errs: string[] = []
         if (fit === undefined) {
-            errs.push('FITファイルをアップロードしてください。')
+            errs.push('Upload your FIT file.')
         }
         if (weight === undefined) {
-            errs.push('体重を入力してください。')
+            errs.push('Enter your weight.')
         }
         if (weight <= 0) {
-            errs.push('体重の値が不正です。')
+            errs.push('The weight value is incorrect.')
         }
 
         setErrors(errs)
@@ -97,7 +97,7 @@ export const FitUploadForm: React.FC<FitUploadFormProps> = (props) => {
                 title={
                     <IconicTypography
                         icon={<UploadFileIcon color="primary" />}
-                        text="FITファイルとFTP・体重を設定"
+                        text="Set FIT file and FTP and weight"
                         variant="h5"
                     />
                 }
@@ -105,24 +105,24 @@ export const FitUploadForm: React.FC<FitUploadFormProps> = (props) => {
             <CardContent>
                 <Stack spacing={5}>
                     <FileUploader
-                        title="FITファイルを選択"
+                        title="Select FIT File"
                         acceptExtension=".fit"
-                        buttonText="FITファイルをアップロード"
+                        buttonText="Upload FIT file"
                         onUpload={onUploadFitFile}
                     />
                     <TextField
                         required
                         type="number"
                         label="FTP"
-                        helperText="パワーゾーンの算出に使用します。FITファイル内にユーザのFTPが含まれる場合は自動で補完されます。"
+                        helperText="Used to calculate power zones; if the user's FTP is included in the FIT file, it is automatically completed."
                         value={ftp ?? 0}
                         onChange={(e) => setFtp(Number(e.currentTarget.value))}
                     />
                     <TextField
                         required
                         type="number"
-                        label="体重"
-                        helperText="PWRの算出に使用します。FITファイル内にユーザの体重が含まれる場合は自動で補完されます。"
+                        label="Weight"
+                        helperText="Used to calculate PWR; if the user's weight is included in the FIT file, it is automatically completed."
                         value={weight ?? 0}
                         onChange={(e) =>
                             setWeight(Number(e.currentTarget.value))
@@ -134,7 +134,7 @@ export const FitUploadForm: React.FC<FitUploadFormProps> = (props) => {
                         size="large"
                         onClick={onUpload}
                     >
-                        変換
+                        Convert
                     </Button>
                 </Stack>
             </CardContent>
