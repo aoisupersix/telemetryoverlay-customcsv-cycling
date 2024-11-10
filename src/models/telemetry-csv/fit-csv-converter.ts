@@ -13,6 +13,7 @@ import { ListedFit } from '../fit/listed-fit'
 
 export const convertToTelemetryCsv = (
     fit: ListedFit,
+    ftp: number,
     weight: number,
 ): [TelemetryCsv, string[]] => {
     const descOrderedPositionChangeEvents = sortBy(

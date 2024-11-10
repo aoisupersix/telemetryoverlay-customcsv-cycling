@@ -18,13 +18,14 @@ import { readFitFile } from '../../models/fit/fit-reader'
 import { ListedFit } from '../../models/fit/listed-fit'
 
 interface FitUploadFormProps {
-    onUpload?: (fit: ListedFit, weight: number, file: File) => void
+    onUpload?: (fit: ListedFit, ftp: number, weight: number, file: File) => void
 }
 
 export const FitUploadForm: React.FC<FitUploadFormProps> = (props) => {
     const [errors, setErrors] = React.useState<string[]>([])
     const [file, setFile] = React.useState<File | undefined>()
     const [fit, setFit] = React.useState<ListedFit | undefined>()
+    const [ftp, setFtp] = React.useState<number | undefined>()
     const [weight, setWeight] = React.useState<number | undefined>()
 
     const onUploadFitFile = (f: File) => {
@@ -38,6 +39,12 @@ export const FitUploadForm: React.FC<FitUploadFormProps> = (props) => {
                     listedFit.user_profile.weight_setting === 'metric'
                 ) {
                     setWeight(listedFit.user_profile.weight)
+                }
+                if (
+                    listedFit.zones_target.functional_threshold_power !==
+                    undefined
+                ) {
+                    setFtp(listedFit.zones_target.functional_threshold_power)
                 }
             })
             .catch((err) => {
@@ -65,7 +72,7 @@ export const FitUploadForm: React.FC<FitUploadFormProps> = (props) => {
 
         setErrors(errs)
         if (errs.length === 0) {
-            props.onUpload(fit, weight, file)
+            props.onUpload(fit, ftp, weight, file)
         }
     }
 
@@ -90,7 +97,7 @@ export const FitUploadForm: React.FC<FitUploadFormProps> = (props) => {
                 title={
                     <IconicTypography
                         icon={<UploadFileIcon color="primary" />}
-                        text="FITファイルと体重を設定"
+                        text="FITファイルとFTP・体重を設定"
                         variant="h5"
                     />
                 }
@@ -102,6 +109,14 @@ export const FitUploadForm: React.FC<FitUploadFormProps> = (props) => {
                         acceptExtension=".fit"
                         buttonText="FITファイルをアップロード"
                         onUpload={onUploadFitFile}
+                    />
+                    <TextField
+                        required
+                        type="number"
+                        label="FTP"
+                        helperText="パワーゾーンの算出に使用します。FITファイル内にユーザのFTPが含まれる場合は自動で補完されます。"
+                        value={ftp ?? 0}
+                        onChange={(e) => setFtp(Number(e.currentTarget.value))}
                     />
                     <TextField
                         required
