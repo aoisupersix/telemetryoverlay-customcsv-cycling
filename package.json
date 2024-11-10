@@ -1,14 +1,14 @@
 {
-  "name": "fit-to-telemetry-overlay-csv",
+  "name": "telemetryoverlay-customcsv-cycling",
   "version": "0.2.0",
   "description": "",
   "author": "aoisupersix",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aoisupersix/fit-to-telemetry-overlay-csv"
+    "url": "git+https://github.com/aoisupersix/telemetryoverlay-customcsv-cycling"
   },
-  "homepage": "https://github.com/aoisupersix/fit-to-telemetry-overlay-csv",
+  "homepage": "https://github.com/aoisupersix/telemetryoverlay-customcsv-cycling",
   "scripts": {
     "build": "npm run clean-dist && webpack --config=configs/webpack/prod.js",
     "clean-dist": "rimraf dist/*",

@@ -41,7 +41,7 @@ export const AppBar: React.FC = () => {
                 <IconButton
                     size="large"
                     color="inherit"
-                    href="https://github.com/aoisupersix/fit-to-telemetry-overlay-csv"
+                    href="https://github.com/aoisupersix/telemetryoverlay-customcsv-cycling"
                     target="_blank"
                 >
                     <GitHubIcon />
