@@ -39,6 +39,7 @@ export const convertToTelemetryCsv = (
             r,
             lap.record,
             lap.number,
+            ftp,
             weight,
             lastPositionChangeEvent,
         )
@@ -53,11 +54,13 @@ const convertToTelemetryRecord = (
     fitRecord: FitRecord,
     lap: Lap,
     lapNumber: number,
+    ftp: number,
     weight: number,
     lastPositionChangeEvent?: RiderPositionChangeEvent,
 ) => {
     let record: { [key: string]: unknown } = {
         date: fitRecord.timestamp.toISOString(),
+        ftp: ftp,
         weight: weight,
         'lap number': lapNumber,
         'lap time (s)': dayjs(fitRecord.timestamp).diff(
@@ -92,6 +95,57 @@ const convertToTelemetryRecord = (
     }
     if (fitRecord.power) {
         record['power weight ratio'] = fitRecord.power / weight
+        const ftpPercent = (fitRecord.power / ftp) * 100
+        record['power ftp ratio (%)'] = ftpPercent
+        // ref: https://www.trainerroad.com/blog/cycling-power-zones-training-zones-explained/
+        switch (true) {
+            case ftpPercent >= 0 && ftpPercent < 56:
+                record['training zone'] = 'Active Recovery'
+                record['training zone jp'] = '回復走'
+                record['training zone level'] = 'L1'
+                record['training zone power'] =
+                    `0-${calcIntPower(ftp, 56) - 1}w`
+                break
+            case ftpPercent >= 56 && ftpPercent < 76:
+                record['training zone'] = 'Endurance'
+                record['training zone jp'] = '持久走'
+                record['training zone level'] = 'L2'
+                record['training zone power'] =
+                    `${calcIntPower(ftp, 56)}-${calcIntPower(ftp, 76) - 1} w`
+                break
+            case ftpPercent >= 76 && ftpPercent < 91:
+                record['training zone'] = 'Tempo'
+                record['training zone jp'] = 'テンポ'
+                record['training zone level'] = 'L3'
+                record['training zone power'] =
+                    `${calcIntPower(ftp, 76)}-${calcIntPower(ftp, 91) - 1} w`
+                break
+            case ftpPercent >= 91 && ftpPercent < 106:
+                record['training zone'] = 'Threshold'
+                record['training zone jp'] = '乳酸閾値'
+                record['training zone level'] = 'L4'
+                record['training zone power'] =
+                    `${calcIntPower(ftp, 91)}-${calcIntPower(ftp, 106) - 1} w`
+                break
+            case ftpPercent >= 106 && ftpPercent < 121:
+                record['training zone'] = 'VO2 Max'
+                record['training zone jp'] = 'VO2 Max'
+                record['training zone level'] = 'L5'
+                record['training zone power'] =
+                    `${calcIntPower(ftp, 106)}-${calcIntPower(ftp, 121) - 1} w`
+                break
+            case ftpPercent >= 121:
+                record['training zone'] = 'Anaerobic Capacity'
+                record['training zone jp'] = '無酸素'
+                record['training zone level'] = 'L6'
+                record['training zone power'] = `${calcIntPower(ftp, 121)}- w`
+                break
+            default:
+                record['training zone'] = ''
+                record['training zone jp'] = ''
+                record['training zone level'] = ''
+                record['training zone power'] = ''
+        }
 
         if (
             fitRecord.left_right_balance &&
@@ -137,6 +191,10 @@ const convertToTelemetryRecord = (
     }
 
     return record
+}
+
+const calcIntPower = (power: number, percent: number) => {
+    return Math.round(power * (percent / 100))
 }
 
 const copySkippingKeys = [
