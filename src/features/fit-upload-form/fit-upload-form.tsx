@@ -18,13 +18,14 @@ import { readFitFile } from '../../models/fit/fit-reader'
 import { ListedFit } from '../../models/fit/listed-fit'
 
 interface FitUploadFormProps {
-    onUpload?: (fit: ListedFit, weight: number, file: File) => void
+    onUpload?: (fit: ListedFit, ftp: number, weight: number, file: File) => void
 }
 
 export const FitUploadForm: React.FC<FitUploadFormProps> = (props) => {
     const [errors, setErrors] = React.useState<string[]>([])
     const [file, setFile] = React.useState<File | undefined>()
     const [fit, setFit] = React.useState<ListedFit | undefined>()
+    const [ftp, setFtp] = React.useState<number | undefined>()
     const [weight, setWeight] = React.useState<number | undefined>()
 
     const onUploadFitFile = (f: File) => {
@@ -38,6 +39,12 @@ export const FitUploadForm: React.FC<FitUploadFormProps> = (props) => {
                     listedFit.user_profile.weight_setting === 'metric'
                 ) {
                     setWeight(listedFit.user_profile.weight)
+                }
+                if (
+                    listedFit.zones_target.functional_threshold_power !==
+                    undefined
+                ) {
+                    setFtp(listedFit.zones_target.functional_threshold_power)
                 }
             })
             .catch((err) => {
@@ -54,18 +61,18 @@ export const FitUploadForm: React.FC<FitUploadFormProps> = (props) => {
     const onUpload = () => {
         const errs: string[] = []
         if (fit === undefined) {
-            errs.push('FITファイルをアップロードしてください。')
+            errs.push('Upload your FIT file.')
         }
         if (weight === undefined) {
-            errs.push('体重を入力してください。')
+            errs.push('Enter your weight.')
         }
         if (weight <= 0) {
-            errs.push('体重の値が不正です。')
+            errs.push('The weight value is incorrect.')
         }
 
         setErrors(errs)
         if (errs.length === 0) {
-            props.onUpload(fit, weight, file)
+            props.onUpload(fit, ftp, weight, file)
         }
     }
 
@@ -90,7 +97,7 @@ export const FitUploadForm: React.FC<FitUploadFormProps> = (props) => {
                 title={
                     <IconicTypography
                         icon={<UploadFileIcon color="primary" />}
-                        text="FITファイルと体重を設定"
+                        text="Set FIT file and FTP and weight"
                         variant="h5"
                     />
                 }
@@ -98,16 +105,24 @@ export const FitUploadForm: React.FC<FitUploadFormProps> = (props) => {
             <CardContent>
                 <Stack spacing={5}>
                     <FileUploader
-                        title="FITファイルを選択"
+                        title="Select FIT File"
                         acceptExtension=".fit"
-                        buttonText="FITファイルをアップロード"
+                        buttonText="Upload FIT file"
                         onUpload={onUploadFitFile}
                     />
                     <TextField
                         required
                         type="number"
-                        label="体重"
-                        helperText="PWRの算出に使用します。FITファイル内にユーザの体重が含まれる場合は自動で補完されます。"
+                        label="FTP"
+                        helperText="Used to calculate power zones; if the user's FTP is included in the FIT file, it is automatically completed."
+                        value={ftp ?? 0}
+                        onChange={(e) => setFtp(Number(e.currentTarget.value))}
+                    />
+                    <TextField
+                        required
+                        type="number"
+                        label="Weight"
+                        helperText="Used to calculate PWR; if the user's weight is included in the FIT file, it is automatically completed."
                         value={weight ?? 0}
                         onChange={(e) =>
                             setWeight(Number(e.currentTarget.value))
@@ -119,7 +134,7 @@ export const FitUploadForm: React.FC<FitUploadFormProps> = (props) => {
                         size="large"
                         onClick={onUpload}
                     >
-                        変換
+                        Convert
                     </Button>
                 </Stack>
             </CardContent>

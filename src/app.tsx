@@ -32,8 +32,13 @@ const MarginedBody = styled.div`
 const App = () => {
     const [_np, setTelemetryCsv] = React.useState<TelemetryCsv | undefined>()
 
-    const onUpload = (fit: ListedFit, weight: number, file: File) => {
-        const [csvObject, fields] = convertToTelemetryCsv(fit, weight)
+    const onUpload = (
+        fit: ListedFit,
+        ftp: number,
+        weight: number,
+        file: File,
+    ) => {
+        const [csvObject, fields] = convertToTelemetryCsv(fit, ftp, weight)
         setTelemetryCsv(csvObject)
         const csvParser = new Parser({
             fields: fields,

@@ -2,6 +2,7 @@ import { Buffer } from 'buffer'
 
 import { ListedFit } from './listed-fit'
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const FitParser = require('fit-file-parser/dist/fit-parser.js').default
 
 export const readFitFile = async (blob: Blob): Promise<ListedFit> => {

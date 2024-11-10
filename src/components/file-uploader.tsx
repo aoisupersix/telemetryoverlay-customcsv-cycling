@@ -35,11 +35,9 @@ export const FileUploader: React.FC<FileUploaderProps> = (props) => {
     return (
         <Container>
             <ButtonGroup variant="contained" aria-label="primary button group">
-                <Button disabled>
-                    {file?.name ?? 'ファイルをアップロードしてください。'}
-                </Button>
+                <Button disabled>{file?.name ?? 'Upload your file.'}</Button>
                 <Button onClick={onClickUploadButton}>
-                    {props.buttonText ?? 'ファイルをアップロード'}
+                    {props.buttonText ?? 'Upload File'}
                 </Button>
             </ButtonGroup>
             <HiddenInput

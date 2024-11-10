@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import GitHubIcon from '@mui/icons-material/GitHub'
-import TwitterIcon from '@mui/icons-material/Twitter'
+import XIcon from '@mui/icons-material/X'
 import {
     AppBar as MUIAppBar,
     IconButton,
@@ -11,6 +11,7 @@ import {
 
 import { environment } from '../models/environment'
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const mainLogo = require('../assets/images/mainLogo.svg')
 
 export const AppBar: React.FC = () => {
@@ -32,7 +33,7 @@ export const AppBar: React.FC = () => {
                     sx={{ fontWeight: 'bold', flexGrow: 1 }}
                     gutterBottom
                 >
-                    TelemetryOverlay用カスタムCSV生成
+                    TelemetryOverlay custom CSV generation for cycling
                 </Typography>
                 <Typography variant="caption">
                     v{environment.VERSION}
@@ -51,7 +52,7 @@ export const AppBar: React.FC = () => {
                     href="https://twitter.com/aoisupersix"
                     target="_blank"
                 >
-                    <TwitterIcon />
+                    <XIcon />
                 </IconButton>
             </Toolbar>
         </MUIAppBar>
