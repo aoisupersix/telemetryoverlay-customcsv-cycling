@@ -1,12 +1,12 @@
-[![CI](https://github.com/aoisupersix/fit-to-telemetry-overlay-csv/actions/workflows/ci.yml/badge.svg)](https://github.com/aoisupersix/fit-to-telemetry-overlay-csv/actions/workflows/ci.yml)
+[![CI](https://github.com/aoisupersix/telemetryoverlay-customcsv-cycling/actions/workflows/ci.yml/badge.svg)](https://github.com/aoisupersix/telemetryoverlay-customcsv-cycling/actions/workflows/ci.yml)
 
-# fit-to-telemetry-overlay-csv
+# telemetryoverlay-customcsv-cycling
 
 A tool to calculate various useful metrics used on cycling from [fit files](https://developer.garmin.com/fit/overview/), and output them to a custom CSV in [telemetry-overlay](https://goprotelemetryextractor.com/tools-for-custom-csv).
 
 ## Application
 
-https://aoisupersix.github.io/fit-to-telemetry-overlay-csv/
+https://aoisupersix.github.io/telemetryoverlay-customcsv-cycling/
 
 ## Calculated metrics
 
