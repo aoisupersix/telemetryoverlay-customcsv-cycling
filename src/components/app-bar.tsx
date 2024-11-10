@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import GitHubIcon from '@mui/icons-material/GitHub'
-import TwitterIcon from '@mui/icons-material/Twitter'
+import XIcon from '@mui/icons-material/X'
 import {
     AppBar as MUIAppBar,
     IconButton,
@@ -52,7 +52,7 @@ export const AppBar: React.FC = () => {
                     href="https://twitter.com/aoisupersix"
                     target="_blank"
                 >
-                    <TwitterIcon />
+                    <XIcon />
                 </IconButton>
             </Toolbar>
         </MUIAppBar>
