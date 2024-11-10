@@ -11,6 +11,7 @@ import {
 
 import { environment } from '../models/environment'
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const mainLogo = require('../assets/images/mainLogo.svg')
 
 export const AppBar: React.FC = () => {
