@@ -135,7 +135,7 @@ const convertToTelemetryRecord = (
                     `${calcIntPower(ftp, 106)}-${calcIntPower(ftp, 121) - 1} w`
                 break
             case ftpPercent >= 121:
-                record['training zone'] = 'Anaerobic Capacity'
+                record['training zone'] = 'Anaerobic'
                 record['training zone jp'] = '無酸素'
                 record['training zone level'] = 'L6'
                 record['training zone power'] = `${calcIntPower(ftp, 121)}- w`
