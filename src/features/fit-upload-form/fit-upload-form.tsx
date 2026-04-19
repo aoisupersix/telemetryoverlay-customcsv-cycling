@@ -41,7 +41,7 @@ export const FitUploadForm: React.FC<FitUploadFormProps> = (props) => {
                     setWeight(listedFit.user_profile.weight)
                 }
                 if (
-                    listedFit.zones_target.functional_threshold_power !==
+                    listedFit.zones_target?.functional_threshold_power !==
                     undefined
                 ) {
                     setFtp(listedFit.zones_target.functional_threshold_power)
